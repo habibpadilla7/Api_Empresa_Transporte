@@ -23,7 +23,7 @@ class CreateCompaniesTable extends Migration
             $table->string('department');
             $table->string('country');
             $table->Integer('phone');
-            $table->Integer('representatives_id');
+            $table->Integer('representative_id');
             $table->timestamps();
         });
     }

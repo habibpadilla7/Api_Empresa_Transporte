@@ -48,7 +48,7 @@ class CompanyController extends Controller
             'department' => '',
             'country' => '',
             'phone' => '',
-            'representatives_id' => ''
+            'representative_id' => ''
         ]);
         $companys = Company::create($data);
         return $companys;

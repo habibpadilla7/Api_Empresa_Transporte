@@ -20,7 +20,7 @@ class CompanySeeder extends Seeder
             'department' =>'Cundinamarca', 
             'country' => 'Colombia',
             'phone' => 2212345,
-            'representatives_id' => 1
+            'representative_id' => 1
         ]);
     }
 }
