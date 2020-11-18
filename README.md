@@ -21,7 +21,7 @@ However, if you are not using Homestead, you will need to make sure your server 
 * Git
 ```
 
-### Installing BackEnd api-merquero
+### Installing BackEnd api-empresa-transporte
 
 ```
 git clone https://github.com/habibpadilla7/Api_Empresa_Transporte.git
