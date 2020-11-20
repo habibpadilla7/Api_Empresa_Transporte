@@ -67,8 +67,10 @@ class VehicleController extends Controller
      */
     public function show($id)
     {
-        //
-        $vehicle = Vehicle::findOrFail($id);
+    
+
+        $vehicle = Vehicle::where('plaque','like',"$id")->paginate(1);
+        //$vehicle = Vehicle::findOrFail($id);
         return response()->json(['data' => $vehicle]);
     }
 
