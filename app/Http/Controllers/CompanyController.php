@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Company;
+use App\Representative;
 class CompanyController extends Controller
 {
 
@@ -36,7 +38,7 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $reques)
+    public function store(Request $request)
     {
         
         $data = request()->validate([
@@ -48,10 +50,35 @@ class CompanyController extends Controller
             'department' => '',
             'country' => '',
             'phone' => '',
-            'representative_id' => ''
         ]);
-        $companys = Company::create($data);
-        return $companys;
+
+        DB::transaction(function () use ($request){
+
+            //RepresentativeController::store($request);
+            
+            $representante = Representative::create([
+                'typeIdentification'    => $request->repreLTypeIdentification,
+                'numberIdentification'  => $request->repreLNumberIdentification,
+                'name'                  => $request->repreLName,
+                'address'               => $request->repreLAddress,
+                'city'                  => $request->repreLCity,
+                'department'            => $request->repreLDepartment,
+                'country'               => $request->repreLCountry,
+                'phone'                 => $request->repreLPhone
+            ]);
+            $company = Company::create([
+                'typeIdentification'    => $request->typeIdentification,
+                'numberIdentification'  => $request->numberIdentification,
+                'name'                  => $request->name,
+                'address'               => $request->address,
+                'city'                  => $request->city,
+                'department'            => $request->department,
+                'country'               => $request->country,
+                'phone'                 => $request->phone,
+                'representative_id'     => $representante->id
+            ]);
+        });
+
 
     }
 
@@ -68,7 +95,7 @@ class CompanyController extends Controller
 
         $company = Company::findOrFail($id);
         $company->load($this->relationships);
-        return response()->json(['data' => $product]);
+        return response()->json(['data' => $company]);
     }
 
     /**

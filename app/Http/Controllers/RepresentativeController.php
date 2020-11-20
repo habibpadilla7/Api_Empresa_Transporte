@@ -11,10 +11,9 @@ class RepresentativeController extends Controller
     {
         //
 
-        $representatives = Company::all();
+        $representatives = Representative::all();
 
-        $representatives->load($this->relationships);
-        return response()->json(['data' => $companys]);
+        return response()->json(['data' => $representatives ]);
     }
 
     /**
@@ -46,8 +45,8 @@ class RepresentativeController extends Controller
             'country' => '',
             'phone' => ''
         ]);
-        $companys = Company::create($data);
-        return $companys;
+        $representative = Representative::create($data);
+        return $representative;
 
     }
 
@@ -62,9 +61,8 @@ class RepresentativeController extends Controller
     {
         //
 
-        $product = Products::findOrFail($id);
-        $product->load($this->relationships);
-        return response()->json(['data' => $product]);
+        $representative = Products::findOrFail($id);
+        return response()->json(['data' => $representative]);
     }
 
     /**
@@ -87,7 +85,18 @@ class RepresentativeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = request()->validate([
+            'typeIdentification' => '',
+            'numberIdentification' => '',
+            'name' => '',
+            'address' => '',
+            'city' => '',
+            'department' => '',
+            'country' => '',
+            'phone' => ''
+        ]);
+        $representative ->update($data);
+        return $representative;
     }
 
     /**
@@ -96,8 +105,8 @@ class RepresentativeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Representative $representative)
     {
-        //
+        $representative->delete();
     }
 }

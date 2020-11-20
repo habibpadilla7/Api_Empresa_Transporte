@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use App\Driver;
+use App\DriverVehicle;
 class DriverController extends Controller
 {
    
@@ -32,7 +35,7 @@ class DriverController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $reques)
+    public function store(Request $request)
     {
         
         $data = request()->validate([
@@ -43,9 +46,25 @@ class DriverController extends Controller
             'city' => '',
             'department' => '',
             'country' => '',
-            'phone' => '',
-            'state_id'=> ''
+            'phone' => ''
         ]);
+        DB::transaction(function () use ($request){      
+            
+            $driver = Driver::create([
+                'typeIdentification'    => $request->typeIdentification,
+                'numberIdentification'  => $request->numberIdentification,
+                'name'                  => $request->name,
+                'address'               => $request->address,
+                'city'                  => $request->city,
+                'department'            => $request->department,
+                'country'               => $request->country,
+                'phone'                 => $request->phone
+            ]);
+            $driverVehicle = DriverVehicle::create([
+                'driver_id'  => $driver->id,
+                'vehicle_id'    => $request->vehicle_id
+            ]);
+        });
         $drivers = Driver::create($data);
         return $drivers;
 
@@ -94,8 +113,7 @@ class DriverController extends Controller
             'city' => '',
             'department' => '',
             'country' => '',
-            'phone' => '',
-            'state_id'=> ''
+            'phone' => ''
         ]);
         $driver->update($data);
     }
