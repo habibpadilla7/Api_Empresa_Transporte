@@ -59,13 +59,6 @@ php artisan db:seed
 php artisan serve
 ```
 
-### Installing FrontEnd vue-merquero
-
-```
-git clone https://github.com/habibpadilla7/Api_Empresa_Transporte.git
-cd Api_Empresa_Transporte
-open index.html
-```
 
 ## Author
 
