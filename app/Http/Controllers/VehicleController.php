@@ -67,11 +67,8 @@ class VehicleController extends Controller
      */
     public function show($id)
     {
-    
-
-        $vehicle = Vehicle::where('plaque','like',"$id")->paginate(1);
-        //$vehicle = Vehicle::findOrFail($id);
-        return response()->json(['data' => $vehicle]);
+        $vehicles = Vehicle::where('plaque','like',"$id")->paginate(1);
+        return response()->json( $vehicles);
     }
 
     /**
@@ -94,24 +91,14 @@ class VehicleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = request()->validate([
-            'company_id' => '',
-            'plaque' => '',
-            'motor' => '',
-            'chassis' => '',
-            'model' => '',
-            'registrationDate' => '',
-            'seatedPassengers' => '',
-            'standingPassengers' => '',
-            'weight' => '',
-            'dry' => '',
-            'grossWeight' => '',
-            'numberDoors '=> '',
-            'brand' => '',
-            'line' => '',
-            'state_id' => ''
-        ]);
-        $vehicle->update($data);
+        $vehicle=Vehicle::find($id);
+        if(!$vehicle){
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra el vehiculo con este id'])],404);
+        }
+        $state=$request->input('state_id');
+        $vehicle->state_id=$state;
+
+        $vehicle->save();
     }
 
     /**
